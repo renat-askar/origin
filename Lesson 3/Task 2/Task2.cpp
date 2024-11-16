@@ -41,7 +41,7 @@ void sort(Address* addresses, ptrdiff_t size)
 	{
 		for(ptrdiff_t addr{}; addr < size - addrs - 1; ++addr)
 		{
-			if(addresses[addr].getCity().front() > addresses[addr + 1].getCity().front())
+			if(addresses[addr].getCity() > addresses[addr + 1].getCity())
 			{
 				temp = addresses[addr];
 				addresses[addr + 0].setAddress(addresses + addr + 1);

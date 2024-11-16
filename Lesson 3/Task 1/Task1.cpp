@@ -15,20 +15,12 @@ public:
 	Address(const std::string& setCity, const std::string& setStreet, int setHouse, int setApartment) :
 		city{setCity}, street{setStreet}, house{setHouse}, apartment{setApartment}{}
 
-	void setAddress(const std::string& setCity, const std::string& setStreet, int setHouse, int setApartment)
-	{
-		city = setCity;
-		street = setStreet;
-		house = setHouse;
-		apartment = setApartment;
-	}
+	std::string& getCity(){return city;}
+	std::string& getStreet(){return street;}
+	int& getHouse(){return house;}
+	int& getApartment(){return apartment;}
 
-	std::string& getCity() { return city; }
-	std::string& getStreet() { return street; }
-	int& getHouse() { return house; }
-	int& getApartment() { return apartment; }
-
-	const std::string& get_output_address()
+	std::string get_output_address()
 	{
 		return city + ", " + street + ", " + std::to_string(house) + ", " + std::to_string(apartment);
 	}
