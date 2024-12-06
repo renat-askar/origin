@@ -13,7 +13,7 @@ class Fraction
 			denominator_ = denominator;
 		}
 
-		Fraction operator + (const Fraction& fraction)
+		Fraction operator + (const Fraction& fraction) const
 		{
 			Fraction result{numerator_ * fraction.denominator_ + fraction.numerator_ * denominator_, denominator_ * fraction.denominator_};
 
@@ -32,7 +32,7 @@ class Fraction
 			return result;
 		}
 
-		Fraction operator - (const Fraction& fraction)
+		Fraction operator - (const Fraction& fraction) const
 		{
 			Fraction result{numerator_ * fraction.denominator_ - fraction.numerator_ * denominator_, denominator_ * fraction.denominator_};
 
@@ -51,7 +51,7 @@ class Fraction
 			return result;
 		}
 
-		Fraction operator * (const Fraction& fraction)
+		Fraction operator * (const Fraction& fraction) const
 		{
 			Fraction result{numerator_ * fraction.numerator_, denominator_ * fraction.denominator_};
 
@@ -70,7 +70,7 @@ class Fraction
 			return result;
 		}
 
-		Fraction operator / (const Fraction& fraction)
+		Fraction operator / (const Fraction& fraction) const
 		{
 			Fraction result{numerator_ * fraction.denominator_, denominator_ * fraction.numerator_};
 
@@ -89,7 +89,7 @@ class Fraction
 			return result;
 		}
 
-		Fraction operator - ()
+		Fraction operator - () const
 		{
 			return numerator_ >= 0 && denominator_ < 0 ? Fraction{numerator_, -denominator_} : Fraction{-numerator_, denominator_};
 		}

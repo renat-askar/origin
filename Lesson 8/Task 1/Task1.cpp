@@ -13,32 +13,32 @@ class Fraction
 			denominator_ = denominator;
 		}
 
-		bool operator == (const Fraction& fraction)
+		bool operator == (const Fraction& fraction) const
 		{
-			return this->numerator_ == fraction.numerator_ && this->denominator_ == fraction.denominator_;
+			return numerator_ == fraction.numerator_ && denominator_ == fraction.denominator_;
 		}
 
-		bool operator != (const Fraction& fraction)
+		bool operator != (const Fraction& fraction) const
 		{
 			return !(*this == fraction);
 		}
 
-		bool operator < (const Fraction& fraction)
+		bool operator < (const Fraction& fraction) const
 		{
-			return this->numerator_ * fraction.denominator_ < this->denominator_ * fraction.numerator_;
+			return numerator_ * fraction.denominator_ < denominator_ * fraction.numerator_;
 		}
 
-		bool operator >= (const Fraction& fraction)
+		bool operator >= (const Fraction& fraction) const
 		{
 			return (*this == fraction) || !(*this < fraction);
 		}
 
-		bool operator > (const Fraction& fraction)
+		bool operator > (const Fraction& fraction) const
 		{
 			return !(*this < fraction) && !(*this == fraction);
 		}
 
-		bool operator <= (const Fraction& fraction)
+		bool operator <= (const Fraction& fraction) const
 		{
 			return (*this < fraction) || (*this == fraction);
 		}
