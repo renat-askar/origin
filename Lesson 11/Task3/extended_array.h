@@ -34,7 +34,7 @@ class ExtArray
 
 		double mean()
 		{
-			if(extended_array.empty()) return 0.0;
+			if(extended_array.empty()) return 0;
 			double sum = 0;
 			for (size_t i = 0; i < _size; i++)
 			{
@@ -45,18 +45,21 @@ class ExtArray
 
 		double mean(size_t start, size_t end)
 		{
-			if(start < 0 || end >= extended_array.size()) throw std::invalid_argument{"bad ranges"};
+			if (extended_array.empty()) return 0;
+			if (start >= extended_array.size() || end >= extended_array.size() || start >= end || start == 0)
+				throw std::invalid_argument{"invalid range"};
 			double sum = 0;
-			for (size_t i = start; i <= end; i++)
+			double size = 0;
+			for (size_t i = start; i <= end; i++, ++size)
 			{
-				sum += extended_array[i];
+				sum += extended_array[i - 1];
 			}
-			return sum / _size;
+			return sum / size;
 		}
 
 		double median()
 		{
-			if (extended_array.empty()) return 0.0;
+			if (extended_array.empty()) return 0;
 			std::vector<T> temp_array;
 			std::copy(extended_array.begin(), extended_array.end(), back_inserter(temp_array));
 			std::sort(temp_array.begin(), temp_array.end());

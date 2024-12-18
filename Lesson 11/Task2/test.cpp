@@ -2,6 +2,17 @@
 #include "extended_array.h"
 #include <cstring>
 
+TEST_CASE("If empty")
+{
+	SECTION("Return null")
+	{
+		ExtArray<int> arr{};
+		REQUIRE(arr.mean() == 0);
+		REQUIRE(arr.median() == 0);
+		REQUIRE(arr.mode() == std::pair<int, int>{0, 0});
+	}
+}
+
 TEST_CASE("With range")
 {
 	SECTION("Valid ranges")

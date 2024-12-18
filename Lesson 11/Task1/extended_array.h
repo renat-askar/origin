@@ -34,7 +34,7 @@ class ExtArray
 
 		double mean()
 		{
-			if(extended_array.size() == 0) return 0;
+			if(extended_array.empty()) return 0;
 			double sum = 0;
 			for (size_t i = 0; i < _size; i++)
 			{
@@ -45,7 +45,7 @@ class ExtArray
 
 		double median()
 		{
-			if (extended_array.size() == 0) return 0;
+			if (extended_array.empty()) return 0;
 			std::vector<T> temp_array;
 			std::copy(extended_array.begin(), extended_array.end(), back_inserter(temp_array));
 			std::sort(temp_array.begin(), temp_array.end());
@@ -61,7 +61,7 @@ class ExtArray
 
 		std::pair<T, int> mode()
 		{
-			if (extended_array.size() == 0) return {0, 0};
+			if (extended_array.empty()) return {0, 0};
 			T max = extended_array[0], cmax = 0, rmax = 0;
 			for (int i = 0; i < _size; i++) 
 			{
