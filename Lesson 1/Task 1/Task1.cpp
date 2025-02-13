@@ -1,67 +1,32 @@
 ﻿#include <iostream>
 
-enum class Month
+using namespace std; 
+
+struct point
 {
-	january = 1,
-	february,
-	march,
-	april,
-	may,
-	june,
-	july,
-	august,
-	september,
-	october,
-	november,
-	december,
+	double m_x;
+	double m_y;
+
+	point(double x, double y)
+    {
+		m_x = x;
+		m_y = y;
+	}
 };
+
+void print_point(const point& point_object)
+{
+	std::cout << "x: " << point_object.m_x << ", y: "
+		<< point_object.m_y << std::endl;
+}
 
 int main()
 {
-	std::setlocale(LC_ALL, "Russian");
-
-	int num{};
-	bool zeroIsNotInput{true};
-	do
-	{
-		std::cout << "Введите номер месяца: ";
-		std::cin >> num;
-
-		if (!std::cin.eof() && std::cin.peek() != '\n' || !std::cin)
-		{
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Неправильный номер!\n";
-			continue;
-		}
-
-		if(num == 0)
-			zeroIsNotInput = false;
-
-		if(num >= 1 && num <= 12)
-		{
-			switch (static_cast<Month>(num))
-			{
-				case Month::january:	std::cout << "Январь\n";	break;
-				case Month::february:	std::cout << "Февраль\n";	break;
-				case Month::march:		std::cout << "Март\n";		break;
-				case Month::april:		std::cout << "Апрель\n";	break;
-				case Month::may:		std::cout << "Май\n";		break;
-				case Month::june:		std::cout << "Июнь\n";		break;
-				case Month::july:		std::cout << "Июль\n";		break;
-				case Month::august:		std::cout << "Август\n";	break;
-				case Month::september:	std::cout << "Сентябрь\n";	break;
-				case Month::october:	std::cout << "Октябрь\n";	break;
-				case Month::november:	std::cout << "Ноябрь\n";	break;
-				case Month::december:	std::cout << "Декабрь\n";	break;
-			}
-		}
-		else if(!zeroIsNotInput)
-			std::cout << "До свидания\n";
-		else
-			std::cout << "Неправильный номер!\n";
-
-	} while(zeroIsNotInput);
-
+	int i;
+	for(i = 0; i < 5; i++)
+    {
+		point my_point(i, 2 * i);
+		print_point(my_point);
+	}
 	return 0;
 }
