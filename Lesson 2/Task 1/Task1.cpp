@@ -1,112 +1,70 @@
 #include <iostream>
-#include <limits>
+#include <exception>
 
-class Calculator
+class smart_array
 {
-    double num1{};
-    double num2{};
+    int* array{};
+    size_t size{};
+    size_t capacity{};
 
     public:
-        double add()
+        smart_array(size_t initSize): capacity{initSize}
         {
-            return num1 + num2;
+            array = new int[initSize]{};
         }
-        double multiply()
+
+        void add_element(int element)
         {
-            return num1 * num2;
+            array[size++] = element;
         }
-        double subtract_1_2()
+
+        int get_element(size_t idx) const
         {
-            return num1 - num2;
+            if(idx >= size)
+                throw std::exception{};
+            return array[idx];
         }
-        double subtract_2_1()
+
+        size_t getCapacity() const
         {
-            return num2 - num1;
+            return capacity;
         }
-        double divide_1_2()
+
+        size_t getSize() const
         {
-            return num1 / num2;
+            return size;
         }
-        double divide_2_1()
+
+        void operator = (const smart_array& arr)
         {
-            return num2 / num1;
-        }
-        bool set_num1(double num1)
-        {
-            if(num1)
+            delete[] array;
+            array = new int[arr.getCapacity()]{};
+            size = arr.getSize();
+            capacity = arr.getCapacity();
+            for(size_t idx{}; idx < arr.getCapacity(); ++idx)
             {
-                this->num1 = num1;
-                return true;
+                array[idx] = arr.get_element(idx);
             }
-            return false;
         }
-        bool set_num2(double num2)
+
+        ~smart_array()
         {
-            if(num2)
-            {
-                this->num2 = num2;
-                return true;
-            }
-            return false;
+            delete[] array;
         }
 };
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-    Calculator calculator{};
-    double num1{};
-    double num2{};
-    bool num1IsNotZero{};
-    bool num2IsNotZero{};
-    while(true)
-    {
-        while(!num1IsNotZero)
-        {
-            while(std::cout << "Введите num1: " && !(std::cin >> num1) || !std::cin.eof() && std::cin.peek() != '\n')
-            {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Неверный ввод!\n";
-            }
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    smart_array arr(5);
+    arr.add_element(1);
+    arr.add_element(4);
+    arr.add_element(155);
 
-            num1IsNotZero = calculator.set_num1(num1);
-            if(!num1IsNotZero)
-            {
-                std::cout << "Неверный ввод!\n";
-                continue;
-            }
-        }
+    smart_array new_array(2);
+    new_array.add_element(44); 
+    new_array.add_element(34);
 
-        while(!num2IsNotZero)
-        {
-            while(std::cout << "Введите num2: " && !(std::cin >> num2) || !std::cin.eof() && std::cin.peek() != '\n')
-            {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Неверный ввод!\n";
-            }
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-            num2IsNotZero = calculator.set_num2(num2);
-            if(!num2IsNotZero)
-            {
-                std::cout << "Неверный ввод!\n";
-                continue;
-            }
-        }
-
-        std::cout << "num1 + num2 = " << calculator.add() << '\n';
-        std::cout << "num1 - num2 = " << calculator.subtract_1_2() << '\n';
-        std::cout << "num2 - num1 = " << calculator.subtract_2_1() << '\n';
-        std::cout << "num1 * num2 = " << calculator.multiply() << '\n';
-        std::cout << "num1 / num2 = " << calculator.divide_1_2() << '\n';
-        std::cout << "num2 / num1 = " << calculator.divide_2_1() << '\n';
-
-        num1IsNotZero = false;
-        num2IsNotZero = false;
-    }
+    arr = new_array;
 
     return 0;
 }

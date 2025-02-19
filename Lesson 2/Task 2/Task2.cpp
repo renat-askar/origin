@@ -1,81 +1,50 @@
-#include "Windows.h"
-
 #include <iostream>
-#include <string>
+#include <exception>
 
-class Counter
+class smart_array
 {
-    int count{1};
+    int* array{};
+    size_t size{};
 
     public:
-        Counter() = default;
-        Counter(int initial): count{initial}{}
+        smart_array(size_t initSize)
+        {
+            array = new int[initSize]{};
+        }
 
-        const int get() const
+        void add_element(int element)
         {
-            return count;
+            array[size++] = element;
         }
-        void decrease()
+
+        int get_element(size_t idx) const
         {
-            --count;
+            if(idx >= size)
+                throw std::exception{};
+            return array[idx];
         }
-        void increase()
+
+        ~smart_array()
         {
-            ++count;
+            delete[] array;
         }
 };
 
 int main()
 {
-    SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-    bool isInitial{};
-    std::string select{};
-    std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
-    std::cin >> select;
-
-    if(select == "да") isInitial = true;
-    else isInitial = false;
-
-    if(isInitial)
+    try
     {
-        int count{};
-        std::cout << "Введите начальное значение счётчика: ";
-        std::cin >> count;
-
-        char selector{};
-        Counter counter{count};
-        while(selector != 'x')
-        {
-            std::cout << "Введите команду ('+', '-', '=', или 'x'): ";
-            std::cin >> selector;
-
-            switch(selector)
-            {
-                case '+': counter.increase(); break;
-                case '-': counter.decrease(); break;
-                case '=': std::cout << counter.get(); break;
-                case 'x': std::cout << "До свидания!\n"; break;
-            }
-        }
+        smart_array arr(5);
+        arr.add_element(1);
+        arr.add_element(4);
+        arr.add_element(155);
+        arr.add_element(14);
+        arr.add_element(15);
+        std::cout << arr.get_element(1) << std::endl;
     }
-    else
+    catch(const std::exception& ex)
     {
-        char selector{};
-        Counter counter{};
-        while(selector != 'x')
-        {
-            std::cout << "Введите команду ('+', '-', '=', или 'x'): ";
-            std::cin >> selector;
-
-            switch(selector)
-            {
-                case '+': counter.increase(); break;
-                case '-': counter.decrease(); break;
-                case '=': std::cout << counter.get() << '\n'; break;
-                case 'x': std::cout << "До свидания!\n"; break;
-            }
-        }
+        std::cout << ex.what() << std::endl;
     }
 
     return 0;
