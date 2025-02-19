@@ -5,10 +5,9 @@ class smart_array
 {
     int* array{};
     size_t size{};
-    size_t capacity{};
 
     public:
-        smart_array(size_t initSize): capacity{initSize}
+        smart_array(size_t initSize)
         {
             array = new int[initSize]{};
         }
@@ -25,28 +24,6 @@ class smart_array
             return array[idx];
         }
 
-        size_t getCapacity() const
-        {
-            return capacity;
-        }
-
-        size_t getSize() const
-        {
-            return size;
-        }
-
-        void operator = (const smart_array& arr)
-        {
-            delete[] array;
-            array = new int[arr.getCapacity()]{};
-            size = arr.getSize();
-            capacity = arr.getCapacity();
-            for(size_t idx{}; idx < arr.getCapacity(); ++idx)
-            {
-                array[idx] = arr.get_element(idx);
-            }
-        }
-
         ~smart_array()
         {
             delete[] array;
@@ -55,16 +32,20 @@ class smart_array
 
 int main()
 {
-    smart_array arr(5);
-    arr.add_element(1);
-    arr.add_element(4);
-    arr.add_element(155);
-
-    smart_array new_array(2);
-    new_array.add_element(44); 
-    new_array.add_element(34);
-
-    arr = new_array;
+    try
+    {
+        smart_array arr(5);
+        arr.add_element(1);
+        arr.add_element(4);
+        arr.add_element(155);
+        arr.add_element(14);
+        arr.add_element(15);
+        std::cout << arr.get_element(1) << std::endl;
+    }
+    catch(const std::exception& ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
 
     return 0;
 }
