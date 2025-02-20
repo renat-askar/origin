@@ -5,15 +5,26 @@ class smart_array
 {
     int* array{};
     size_t size{};
+    size_t capacity{};
 
     public:
-        smart_array(size_t initSize)
+        smart_array(size_t initCapacity): capacity{initCapacity}
         {
-            array = new int[initSize]{};
+            array = new int[initCapacity]{};
         }
 
         void add_element(int element)
         {
+            if(size >= capacity)
+            {
+                int* temp{array};
+                array = new int[capacity *= 2]{};
+                for(size_t idx{}; idx < size; ++idx)
+                {
+                    array[idx] = temp[idx];
+                }
+                delete[] temp;
+            }
             array[size++] = element;
         }
 

@@ -8,13 +8,38 @@ class smart_array
     size_t capacity{};
 
     public:
-        smart_array(size_t initSize): capacity{initSize}
+        smart_array(size_t initCapacity): capacity{initCapacity}
         {
-            array = new int[initSize]{};
+            array = new int[initCapacity]{};
         }
+
+        void operator = (const smart_array& arr)
+        {
+            delete[] array;
+            array = new int[arr.getCapacity()]{};
+            size = 0;
+            capacity = arr.getCapacity();
+            for(size_t idx{}; idx < arr.getSize(); ++idx)
+            {
+                add_element(arr.get_element(idx));
+            }
+        }
+
+        size_t getSize() const {return size;}
+        size_t getCapacity() const {return capacity;}
 
         void add_element(int element)
         {
+            if(size >= capacity)
+            {
+                int* temp{array};
+                array = new int[capacity *= 2]{};
+                for(size_t idx{}; idx < size; ++idx)
+                {
+                    array[idx] = temp[idx];
+                }
+                delete[] temp;
+            }
             array[size++] = element;
         }
 
@@ -23,28 +48,6 @@ class smart_array
             if(idx >= size)
                 throw std::exception{};
             return array[idx];
-        }
-
-        size_t getCapacity() const
-        {
-            return capacity;
-        }
-
-        size_t getSize() const
-        {
-            return size;
-        }
-
-        void operator = (const smart_array& arr)
-        {
-            delete[] array;
-            array = new int[arr.getCapacity()]{};
-            size = arr.getSize();
-            capacity = arr.getCapacity();
-            for(size_t idx{}; idx < arr.getCapacity(); ++idx)
-            {
-                array[idx] = arr.get_element(idx);
-            }
         }
 
         ~smart_array()
