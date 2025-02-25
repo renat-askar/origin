@@ -70,11 +70,11 @@ int main()
     }
     std::cout << '\n';
 
-    std::cout << "[OUT]: " << numbers() << '\n';
+    std::cout << "[OUT]: get_sum() = " << numbers() << '\n';
 
     numbers.set_get_count(get::count);
 
-    std::cout << "[OUT]: " << numbers() << '\n';
+    std::cout << "[OUT]: get_count() = " << numbers() << '\n';
 
     return 0;
 }
