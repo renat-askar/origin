@@ -1,44 +1,40 @@
-﻿#include <iostream>
+#include <iostream>
+#include <vector>
 
-class Figure
+template<typename Type>
+std::ostream& operator << (std::ostream& out, std::vector<Type> vec)
 {
-	int sides_count{};
-	std::string name{};
+    if(vec.empty()) return out;
+    std::cout << vec[0];
+    for(Type* iter{&vec[1]}; iter < &vec[vec.size()]; ++iter)
+    {
+        std::cout << ", " << *iter;
+    }
+    return out;
+}
 
-protected:
-	Figure(int sides, const std::string &p_name) : sides_count{sides}, name{p_name} {};
-
-public:
-	Figure() : name{"Фигура"} {};
-
-	int get_sides_count() const { return sides_count; }
-	const std::string &get_name() const { return name; }
-};
-
-class Triangle : public Figure
+template<typename Type>
+Type square(Type num)
 {
-public:
-	Triangle() : Figure{3, "Треугольник"} {}
-};
+    return num * num;
+}
 
-class Quadrangle : public Figure
+template<typename Type>
+std::vector<Type> square(std::vector<Type> vec)
 {
-public:
-	Quadrangle() : Figure{4, "Четырёхугольник"} {};
-};
+    for(auto& e: vec)
+        e *= e;
+    return vec;
+}
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+    int num{4};
+    std::vector<int> vec{-1, 4, 8};
+    std::cout << "[IN]: " << num << '\n';
+    std::cout << "[OUT]: " << square(num) << '\n';
+    std::cout << "[IN]: " << vec << '\n';
+    std::cout << "[OUT]: " << square(vec) << '\n';
 
-	Figure figure{};
-	Triangle triangle{};
-	Quadrangle quadrangle{};
-
-	std::cout << "Количество сторон: \n"
-			  << figure.get_name() << ": " << figure.get_sides_count() << '\n'
-			  << triangle.get_name() << ": " << triangle.get_sides_count() << '\n'
-			  << quadrangle.get_name() << ": " << quadrangle.get_sides_count() << '\n';
-
-	return 0;
+    return 0;
 }
