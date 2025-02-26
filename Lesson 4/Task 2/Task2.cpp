@@ -27,7 +27,7 @@ class Table
 
         Array operator[](size_t idx) const {return Array{table[idx]};}
 
-        size_t Size() const {return sizeof(Type) * cols * rows;}
+        size_t Size() const {return cols * rows;}
 };
 
 int main()
