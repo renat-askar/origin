@@ -2,39 +2,21 @@
 
 class get
 {
-    int* array{};
-    size_t size{};
+    int sum{};
+    int count{};
 
-    public:
-        enum set_sum_count{sum, count};
-
-        get(int* initArray, size_t initSize): array{initArray}, size{initSize}{}
-        
-        int operator()(set_sum_count set)
+    public:        
+        void operator()(int number)
         {   
-            switch(set)
+            if(number % 3 == 0)
             {
-                case sum: return get_sum();
-                case count: return get_count();
-                default: return get_sum();
+                sum += number;
+                ++count;
             }
         }
 
-        int get_sum()
-        {
-            int sum{};
-            for(int* iter{array}; iter < &array[size]; ++iter)
-                if(*iter % 3 == 0) sum += *iter;
-            return sum;
-        }
-
-        int get_count()
-        {
-            int count{};
-            for(int* iter{array}; iter < &array[size]; ++iter)
-                if(*iter % 3 == 0) ++count;
-            return count;
-        }
+        int get_sum() const {return sum;}
+        int get_count() const {return count;}
 };
 
 int main()
@@ -48,10 +30,13 @@ int main()
     }
     std::cout << '\n';
 
-    get get_sum_count{array, size};
-
-    std::cout << "[OUT]: get_sum() = " << get_sum_count(get::sum) << '\n';
-    std::cout << "[OUT]: get_count() = " << get_sum_count(get::count) << '\n';
+    get get_sum_count{};
+    for(const auto& num: array)
+    {
+        get_sum_count(num);
+    }
+    std::cout << "[OUT]: get_sum() = " << get_sum_count.get_sum() << '\n';
+    std::cout << "[OUT]: get_count() = " << get_sum_count.get_count() << '\n';
 
     return 0;
 }
