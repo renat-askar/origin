@@ -35,6 +35,8 @@ class Vector
                 elements[m_size++] = value;
         }
 
+        ~Vector(){if(m_capacity) delete[] elements;}
+
         size_t size() const {return m_size;}
         size_t capacity() const {return m_capacity;}
 };
