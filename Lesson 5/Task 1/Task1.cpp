@@ -1,47 +1,27 @@
-﻿#include <iostream>
-
-#include "calculator.h"
+#include <iostream>
+#include <map>
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+    const char hello_world[]{"Hello world!!"};
 
-	int num1{};
-	int num2{};
-	int select{};
+    std::cout << "[IN]: " << hello_world << '\n';
 
-	std::cout << "Введите первое число: ";
-	std::cin >> num1;
+    std::map<char, int> char_frequency{};
+    for(const char* iter{hello_world}; *iter != '\0'; ++iter)
+        ++char_frequency[*iter];
 
-	std::cout << "Введите второе число: ";
-	std::cin >> num2;
+    std::multimap<int, char, std::greater<int>> char_frequency_sort{};
+    for(const auto& [key, value]: char_frequency)
+    {
+        char_frequency_sort.insert({value, key});
+    }
 
-	std::cout << "Выберите операцию (1 - сложение, 2 вычитание, 3 - умножение, 4 - деление, 5 - возведение в степень): ";
-	std::cin >> select;
+    std::cout << "[OUT]:\n";
+    for(const auto& [key, value]: char_frequency_sort)
+    {
+        std::cout << key << ": " << value << '\n';
+    }
 
-	switch (select)
-	{
-		case 1:
-		{
-			std::cout << num1 << " плюс " << num2 << " = " << add(num1, num2) << '\n'; break;
-		}
-		case 2:
-		{
-			std::cout << num1 << " минус " << num2 << " = " << sub(num1, num2) << '\n'; break;
-		}
-		case 3:
-		{
-			std::cout << num1 << " умножить на " << num2 << " = " << mul(num1, num2) << '\n'; break;
-		}
-		case 4:
-		{
-			std::cout << num1 << " делить на " << num2 << " = " << divi(num1, num2) << '\n'; break;
-		}
-		case 5:
-		{
-			std::cout << num1 << " в степени " << num2 << " = " << pow(num1, num2) << '\n'; break;
-		}
-	}
-
-	return 0;
+    return 0;
 }

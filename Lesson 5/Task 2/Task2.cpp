@@ -1,61 +1,23 @@
-﻿#include "Windows.h"
-
 #include <iostream>
-#include <string>
-
-#include "Counter.h"
+#include <set>
 
 int main()
 {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    bool isInitial{};
-    std::string select{};
-    std::cout << "Вы хотите указать начальное значение счётчика? Введите да или нет: ";
-    std::cin >> select;
+    size_t size{};
+    std::cout << "[IN]:\n";
+    std::cin >> size;
 
-    if (select == "да") isInitial = true;
-    else isInitial = false;
-
-    if (isInitial)
+    std::set<int, std::greater<int>> list{};
+    for(int count{}, push{}; count < size; ++count)
     {
-        int count{};
-        std::cout << "Введите начальное значение счётчика: ";
-        std::cin >> count;
-
-        char selector{};
-        Counter counter{ count };
-        while (selector != 'x')
-        {
-            std::cout << "Введите команду ('+', '-', '=', или 'x'): ";
-            std::cin >> selector;
-
-            switch (selector)
-            {
-            case '+': counter.increase(); break;
-            case '-': counter.decrease(); break;
-            case '=': std::cout << counter.get() << '\n'; break;
-            case 'x': std::cout << "До свидания!\n"; break;
-            }
-        }
+        std::cin >> push;
+        list.emplace(push);
     }
-    else
-    {
-        char selector{};
-        Counter counter{};
-        while (selector != 'x')
-        {
-            std::cout << "Введите команду ('+', '-', '=', или 'x'): ";
-            std::cin >> selector;
 
-            switch (selector)
-            {
-            case '+': counter.increase(); break;
-            case '-': counter.decrease(); break;
-            case '=': std::cout << counter.get() << '\n'; break;
-            case 'x': std::cout << "До свидания!\n"; break;
-            }
-        }
+    std::cout << "[OUT]:\n";
+    for(const auto& e: list)
+    {
+        std::cout << e << '\n';
     }
 
     return 0;
