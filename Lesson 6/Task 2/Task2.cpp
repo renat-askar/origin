@@ -1,13 +1,20 @@
-﻿#include <iostream>
+#include <iostream>
+#include <set>
 
-#define SUB(num1, num2) ((num1) - (num2))
-
-int main(int argc, char** argv)
+template<typename Type>
+void print(std::set<Type> set)
 {
-	int a = 6;
-	int b = 5;
-	int c = 2;
-	std::cout << SUB(a, b) << std::endl;
-	std::cout << SUB(a, b) * c << std::endl;
-	std::cout << SUB(a, b + c) * c << std::endl;
+    std::cout << *set.cbegin();
+    for(auto iter{++set.cbegin()}; iter != set.cend(); ++iter)
+    {
+        std::cout << ' ' << *iter;
+    }
+}
+
+int main()
+{
+    std::set<std::string> test_set = {"one", "two", "three", "four"};
+    print(test_set);
+
+    return 0;
 }
