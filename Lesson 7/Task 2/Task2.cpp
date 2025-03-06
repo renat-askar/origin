@@ -1,44 +1,24 @@
-﻿#include <iostream>
+#include <iostream>
+#include <vector>
+#include <memory>
 
-#include "Figure.h"
-#include "Triangle.h"
-#include "Quadrangle.h"
-#include "RectangularTriangle.h"
-#include "IsoscelesTriangle.h"
-#include "EquilateralTriangle.h"
-#include "Rectangle.h"
-#include "Square.h"
-#include "Parallelogram.h"
-#include "Rhombus.h"
-
-#include "BadFigure.h"
+class node
+{
+public:
+    int m_value;
+    std::weak_ptr<node> parent;
+    node(int value) : m_value{ value } {};
+    ~node() { std::cout << "destructor called\n"; }
+};
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+    {
+        auto node1 = std::make_shared<node>(1);
+        auto node2 = std::make_shared<node>(2);
+        node1->parent = node2;
+        node2->parent = node1;
+    }
 
-	try
-	{
-		RectangularTriangle rectangularTriangle{3, 4, 5, 30, 60};
-		Triangle triangle{3, 4, 5, 0, 0, 0};
-
-		Triangle triangle2{ 10, 20, 30, 50, 60, 70 };
-
-		RectangularTriangle rectangularTriangle2{ 10, 20, 30, 50, 60 };
-		IsoscelesTriangle isoscelesTriangle{ 10, 20, 50, 60 };
-		EquilateralTriangle equilateralTriangle{ 30 };
-
-		Quadrangle quadrangle{ 10, 20, 30, 40, 50, 60, 70, 80 };
-
-		Rectangle rectangle{ 10, 20 };
-		Square square{ 20 };
-		Parallelogram parallelogram{ 20, 30, 30, 40 };
-		Rhombus rhombus{ 30, 30, 40 };
-	}
-	catch (const BadFigure& badFigure)
-	{
-		std::cout << badFigure.what() << " Причина: " << badFigure.getError() << '\n';
-	}
-
-	return 0;
+    return 0;
 }

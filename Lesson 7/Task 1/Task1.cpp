@@ -1,41 +1,36 @@
 #include <iostream>
-#include <string>
+#include <vector>
+#include <memory>
 
-#include "Windows.h"
-
-int function(std::string str, int forbidden_length)
+class tridiagonal_matrix
 {
-	if(str.length() == forbidden_length)
-	{
-		throw "Вы ввели слово запретной длины! До свидания";
-	}
-	return str.length();
-}
+public:
+    std::vector<double> m_down;
+    std::vector<double> m_upper;
+    std::vector<double> m_middle;
+    tridiagonal_matrix(
+        const std::vector<double>& down,
+        const std::vector<double>& upper,
+        const std::vector<double>& middle) :
+        m_down{ down }, m_upper{ upper }, m_middle{ middle }
+    {};
+    ~tridiagonal_matrix() { std::cout << "destructor called\n"; }
+
+    std::unique_ptr<tridiagonal_matrix> clone() const {return std::make_unique<tridiagonal_matrix>(m_down, m_upper, m_middle);}
+};
 
 int main()
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+    auto down = std::vector<double>{ -4.0, 5.0 };
+    auto upper = std::vector<double>{ 14.0, 8.0 };
+    auto middle = std::vector<double>{ 3.0, 1.0, 7.0 };
+    auto matrix = std::make_unique<tridiagonal_matrix>(
+        down,
+        upper,
+        middle
+    );
 
-	int length{};
-	std::cout << "Введите запретную длину: ";
-	std::cin >> length;
+    auto matrix_clone = matrix->clone();
 
-	std::string word{};
-	while(true)
-	{
-		std::cout << "Введите слово: ";
-		std::cin >> word;
-		try
-		{
-			std::cout << "Длина слова " << word << " равна " << function(word, length) << '\n';
-		}
-		catch (const char* bad_length)
-		{
-			std::cout << bad_length << '\n';
-			break;
-		}
-	}
-
-	return EXIT_SUCCESS;
+    return 0;
 }
