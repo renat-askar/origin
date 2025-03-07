@@ -8,7 +8,7 @@ class unique_ptr
     public:
         unique_ptr(Type* getPtr): ptr{getPtr}{}
 
-        Type operator * () const {return *ptr;}
+        Type& operator * () const {return *ptr;}
 
         unique_ptr<Type> operator = (const unique_ptr& ptr) = delete;
 
@@ -16,10 +16,9 @@ class unique_ptr
 
         Type* release()
         {
-            if(ptr == nullptr) return ptr;
-            delete ptr;
+            Type* temp{ptr};
             ptr = nullptr;
-            return ptr;
+            return temp;
         }
 
         ~unique_ptr()
