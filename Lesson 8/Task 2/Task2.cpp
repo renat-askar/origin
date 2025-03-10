@@ -11,7 +11,7 @@ class big_integer
 
         big_integer(big_integer&& big_int) noexcept: number{std::move(big_int.number)}{}
 
-        big_integer& operator = (big_integer&& big_int)
+        big_integer& operator = (big_integer&& big_int) noexcept
         {
             number = std::move(big_int.number);
             big_int.number = "0";
