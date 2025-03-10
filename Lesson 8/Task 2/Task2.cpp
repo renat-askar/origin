@@ -9,7 +9,10 @@ class big_integer
     public:
         big_integer(const std::string& num): number{num}{};
 
-        big_integer(big_integer&& big_int) noexcept: number{std::move(big_int.number)}{}
+        big_integer(big_integer&& big_int) noexcept: number{std::move(big_int.number)}
+        {
+            big_int.number = "0";
+        }
 
         big_integer& operator = (big_integer&& big_int) noexcept
         {
