@@ -1,162 +1,40 @@
 #include <iostream>
+#include <string>
+#include <utility>
 
-class Fraction
+class big_integer
 {
-	private:
-		int numerator_;
-		int denominator_;
+    std::string number{};
 
-	public:
-		Fraction(int numerator, int denominator)
-		{
-			numerator_ = numerator;
-			denominator_ = denominator;
-		}
+    public:
+        big_integer(const std::string& num): number{num}{};
 
-		Fraction operator + (const Fraction& fraction) const
-		{
-			Fraction result{numerator_ * fraction.denominator_ + fraction.numerator_ * denominator_, denominator_ * fraction.denominator_};
+        big_integer(big_integer&& big_int) noexcept: number{std::move(big_int.number)}{}
 
-			int gcd{result.numerator_ < result.denominator_ ? result.numerator_ : result.denominator_};
-			if (gcd > 1)
-			{
-				while (gcd > 1)
-				{
-					if (result.numerator_ % gcd == 0 && result.denominator_ % gcd == 0)
-						break;
-					--gcd;
-				}
-				result.numerator_ /= gcd;
-				result.denominator_ /= gcd;
-			}
-			return result;
-		}
+        big_integer& operator = (big_integer&& big_int)
+        {
+            number = std::move(big_int.number);
+            big_int.number = "0";
+            return *this;
+        }
 
-		Fraction operator - (const Fraction& fraction) const
-		{
-			Fraction result{numerator_ * fraction.denominator_ - fraction.numerator_ * denominator_, denominator_ * fraction.denominator_};
+        std::string operator + (const big_integer& big_int)
+        {
+            return std::to_string(std::stoi(number) + std::stoi(big_int.number));
+        }
 
-			int gcd{result.numerator_ < result.denominator_ ? result.numerator_ : result.denominator_};
-			if(gcd > 1)
-			{
-				while(gcd > 1)
-				{
-					if (result.numerator_ % gcd == 0 && result.denominator_ % gcd == 0)
-						break;
-					--gcd;
-				}
-				result.numerator_ /= gcd;
-				result.denominator_ /= gcd;
-			}
-			return result;
-		}
-
-		Fraction operator * (const Fraction& fraction) const
-		{
-			Fraction result{numerator_ * fraction.numerator_, denominator_ * fraction.denominator_};
-
-			int gcd{result.numerator_ < result.denominator_ ? result.numerator_ : result.denominator_};
-			if (gcd > 1)
-			{
-				while (gcd > 1)
-				{
-					if (result.numerator_ % gcd == 0 && result.denominator_ % gcd == 0)
-						break;
-					--gcd;
-				}
-				result.numerator_ /= gcd;
-				result.denominator_ /= gcd;
-			}
-			return result;
-		}
-
-		Fraction operator / (const Fraction& fraction) const
-		{
-			Fraction result{numerator_ * fraction.denominator_, denominator_ * fraction.numerator_};
-
-			int gcd{result.numerator_ < result.denominator_ ? result.numerator_ : result.denominator_};
-			if (gcd > 1)
-			{
-				while (gcd > 1)
-				{
-					if (result.numerator_ % gcd == 0 && result.denominator_ % gcd == 0)
-						break;
-					--gcd;
-				}
-				result.numerator_ /= gcd;
-				result.denominator_ /= gcd;
-			}
-			return result;
-		}
-
-		Fraction operator - () const
-		{
-			return numerator_ >= 0 && denominator_ < 0 ? Fraction{numerator_, -denominator_} : Fraction{-numerator_, denominator_};
-		}
-
-		Fraction operator ++ (int)
-		{
-			Fraction temp{*this};
-			*this = {numerator_ * 1 + 1 * denominator_, denominator_ * 1};
-			return temp;
-		}
-
-		Fraction operator ++ ()
-		{
-			return *this = {numerator_ * 1 + 1 * denominator_, denominator_ * 1};
-		}
-
-		Fraction operator -- (int)
-		{
-			Fraction temp{*this};
-			*this = {numerator_ * 1 - 1 * denominator_, denominator_ * 1};
-			return temp;
-		}
-
-		Fraction operator -- ()
-		{
-			return *this = {numerator_ * 1 - 1 * denominator_, denominator_ * 1};
-		}
-
-		friend std::ostream& operator << (std::ostream& out, const Fraction& fraction);
+        std::string operator * (const big_integer& big_int)
+        {
+            return std::to_string(std::stoi(number) * std::stoi(big_int.number));
+        }
 };
-
-std::ostream& operator << (std::ostream& out, const Fraction& fraction)
-{
-	return out << fraction.numerator_ << '/' << fraction.denominator_;
-}
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
+    auto number1 = big_integer("114575");
+    auto number2 = big_integer("78524");
+    auto result = number1 + number2;
+    std::cout << result << '\n';
 
-	int numerator{};
-	int denominator{};
-
-	std::cout << "Введите числитель дроби 1: ";
-	std::cin >> numerator;
-	std::cout << "Введите знаменатель дроби 1: ";
-	std::cin >> denominator;
-	Fraction fraction1{numerator, denominator};
-
-	std::cout << "Введите числитель дроби 2: ";
-	std::cin >> numerator;
-	std::cout << "Введите знаменатель дроби 2: ";
-	std::cin >> denominator;
-	Fraction fraction2{numerator, denominator};
-
-	std::cout << fraction1 << " + " << fraction2 << " = " << fraction1 + fraction2 << '\n';
-	std::cout << fraction1 << " - " << fraction2 << " = " << fraction1 - fraction2 << '\n';
-	std::cout << fraction1 << " * " << fraction2 << " = " << fraction1 * fraction2 << '\n';
-	std::cout << fraction1 << " / " << fraction2 << " = " << fraction1 / fraction2 << '\n';
-
-	std::cout << "++" << fraction1 << " * " << fraction2 << " = ";
-	std::cout << ++fraction1 * fraction2 << '\n';
-	std::cout << "Значение дроби 1 = " << fraction1 << '\n';
-
-	std::cout << fraction1 << "-- * " << fraction2 << " = ";
-	std::cout << fraction1-- * fraction2 << '\n';
-	std::cout << "Значение дроби 1 = " << fraction1 << '\n';
-	
-	return 0;
+    return 0;
 }
