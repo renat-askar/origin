@@ -59,7 +59,7 @@ void ClientsControl::delete_client(int id)
     tx.exec("DELETE from clients WHERE id = " + std::to_string(id) + ";");
 }
 
-void ClientsControl::select_client_by_first_name(const std::string& first_name)
+int ClientsControl::select_client_by_first_name(const std::string& first_name)
 {
     for (const auto& [id, first_name, last_name, email] : tx.query<int, std::string, std::string, std::string>
         ("SELECT id, first_name, last_name, email FROM clients\n"
@@ -67,9 +67,10 @@ void ClientsControl::select_client_by_first_name(const std::string& first_name)
     {
         std::cout << "Id: " << id << "\nFirst name: " << first_name << "\nLast name: " << last_name << "\nEmail: " << email << "\n\n";
     }
+    return tx.query_value<int>("SELECT id FROM clients WHERE first_name = '" + tx.esc(first_name) + "';");
 }
 
-void ClientsControl::select_client_by_last_name(const std::string& last_name)
+int ClientsControl::select_client_by_last_name(const std::string& last_name)
 {
     for (const auto& [id, first_name, last_name, email] : tx.query<int, std::string, std::string, std::string>
         ("SELECT id, first_name, last_name, email FROM clients\n"
@@ -77,9 +78,10 @@ void ClientsControl::select_client_by_last_name(const std::string& last_name)
     {
         std::cout << "Id: " << id << "\nFirst name: " << first_name << "\nLast name: " << last_name << "\nEmail: " << email << "\n\n";
     }
+    return tx.query_value<int>("SELECT id FROM clients WHERE last_name = '" + tx.esc(last_name) + "';");
 }
 
-void ClientsControl::select_client_by_email(const std::string& email)
+int ClientsControl::select_client_by_email(const std::string& email)
 {
     for(const auto& [id, first_name, last_name, email]: tx.query<int, std::string, std::string, std::string>
         ("SELECT id, first_name, last_name, email FROM clients "
@@ -87,9 +89,10 @@ void ClientsControl::select_client_by_email(const std::string& email)
     {
         std::cout << "Id: " << id << "\nFirst name: " << first_name << "\nLast name: " << last_name << "\nEmail: " << email << "\n\n";
     }
+    return tx.query_value<int>("SELECT id FROM clients WHERE email = '" + tx.esc(email) + "';");
 }
 
-void ClientsControl::select_client_by_phone(const std::string& phone)
+int ClientsControl::select_client_by_phone(const std::string& phone)
 {
     for (const auto& [id, first_name, last_name, email, phone]: tx.query<int, std::string, std::string, std::string, std::string>
         ("SELECT clients.id, first_name, last_name, email, phone FROM clients\n"
@@ -98,6 +101,7 @@ void ClientsControl::select_client_by_phone(const std::string& phone)
     {
         std::cout << "Id: " << id << "\nFirst name: " << first_name << "\nLast name: " << last_name << "\nEmail: " << email << "\nPhone: " << phone << '\n';
     }
+    return tx.query_value<int>("SELECT clients.id FROM clients JOIN phones ON clients.id = phones.clients_id WHERE phone = '" + tx.esc(phone) + "';");
 }
 
 void ClientsControl::select_all_clients()

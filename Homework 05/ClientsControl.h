@@ -28,13 +28,13 @@ public:
 
     void delete_client(int id);
 
-    void select_client_by_first_name(const std::string& first_name);
+    int select_client_by_first_name(const std::string& first_name);
 
-    void select_client_by_last_name(const std::string& last_name);
+    int select_client_by_last_name(const std::string& last_name);
 
-    void select_client_by_email(const std::string& email);
+    int select_client_by_email(const std::string& email);
 
-    void select_client_by_phone(const std::string& phone);
+    int select_client_by_phone(const std::string& phone);
 
     void select_all_clients();
     
